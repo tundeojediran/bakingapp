@@ -1,7 +1,10 @@
 package udacity.alc.dannytee.bakingapp.api;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
+import udacity.alc.dannytee.bakingapp.models.Recipe;
 import udacity.alc.dannytee.bakingapp.models.RecipesResponse;
 
 /**
@@ -15,7 +18,7 @@ public interface RecipeService {
     * And method that will return all recipes.
    */
     @GET("baking.json")
-    Call<RecipesResponse> getRecipes();
+    Call<List<Recipe>> getRecipes();
 
 
 }

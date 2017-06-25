@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">BakingApp</string>
+    <string name="number_of_servings">Number of Servings :</string>
+    <string name="recipe_title">Nutella Pie</string>
+    <string name="dialog_loading">loading recipes</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="step_text">Step:</string>
+    <string name="extra">item</string>
 </resources>

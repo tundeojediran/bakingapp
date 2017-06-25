@@ -7,7 +7,7 @@ import android.os.Parcelable;
  * Created by dannytee on 25/06/2017.
  */
 
-class Step implements Parcelable {
+public class Step implements Parcelable {
 
     private Integer id;
     private String shortDescription;
