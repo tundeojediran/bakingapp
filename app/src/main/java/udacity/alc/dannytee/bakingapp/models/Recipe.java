@@ -3,6 +3,11 @@ package udacity.alc.dannytee.bakingapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,18 +19,9 @@ public class Recipe {
     public final static Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
 
 
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Recipe createFromParcel(Parcel in) {
-            Recipe instance = new Recipe();
-            instance.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.name = ((String) in.readValue((String.class.getClassLoader())));
-            in.readList(instance.ingredients, (Ingredient.class.getClassLoader()));
-            in.readList(instance.steps, (Step.class.getClassLoader()));
-            instance.servings = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.image = ((String) in.readValue((String.class.getClassLoader())));
-            return instance;
+        @Override
+        public Recipe createFromParcel(Parcel parcel) {
+            return null;
         }
 
         public Recipe[] newArray(int size) {
@@ -62,6 +58,21 @@ public class Recipe {
         this.steps = steps;
         this.servings = servings;
         this.image = image;
+    }
+
+    public Recipe(JSONObject jsonObject) throws JSONException {
+        this.name = jsonObject.getString("name");
+        this.ingredients = new ArrayList<>();
+        JSONArray ingredientsJsonArray = jsonObject.getJSONArray("ingredients");
+        for (int i = 0; i < ingredientsJsonArray.length(); i++) {
+            ingredients.add(new Ingredient(ingredientsJsonArray.getJSONObject(i)));
+        }
+        this.steps = new ArrayList<>();
+        JSONArray stepsJsonArray = jsonObject.getJSONArray("steps");
+        for (int i = 0; i < stepsJsonArray.length(); i++) {
+            steps.add(new Step(stepsJsonArray.getJSONObject(i)));
+        }
+        this.servings = jsonObject.getInt("servings");
     }
 
     public Integer getId() {

@@ -3,6 +3,8 @@ package udacity.alc.dannytee.bakingapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONObject;
+
 /**
  * Created by dannytee on 25/06/2017.
  */
@@ -17,17 +19,9 @@ public class Step implements Parcelable {
     public final static Parcelable.Creator<Step> CREATOR = new Creator<Step>() {
 
 
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Step createFromParcel(Parcel in) {
-            Step instance = new Step();
-            instance.id = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.shortDescription = ((String) in.readValue((String.class.getClassLoader())));
-            instance.description = ((String) in.readValue((String.class.getClassLoader())));
-            instance.videoURL = ((String) in.readValue((String.class.getClassLoader())));
-            instance.thumbnailURL = ((String) in.readValue((String.class.getClassLoader())));
-            return instance;
+        @Override
+        public Step createFromParcel(Parcel parcel) {
+            return null;
         }
 
         public Step[] newArray(int size) {
@@ -40,8 +34,9 @@ public class Step implements Parcelable {
     /**
      * No args constructor for use in serialization
      *
+     * @param jsonObject
      */
-    public Step() {
+    public Step(JSONObject jsonObject) {
     }
 
     /**

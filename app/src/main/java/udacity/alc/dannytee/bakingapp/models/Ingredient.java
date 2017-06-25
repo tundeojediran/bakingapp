@@ -3,6 +3,8 @@ package udacity.alc.dannytee.bakingapp.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import org.json.JSONObject;
+
 /**
  * Created by dannytee on 25/06/2017.
  */
@@ -15,15 +17,9 @@ public class Ingredient implements Parcelable {
     public final static Parcelable.Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
 
 
-        @SuppressWarnings({
-                "unchecked"
-        })
-        public Ingredient createFromParcel(Parcel in) {
-            Ingredient instance = new Ingredient();
-            instance.quantity = ((Integer) in.readValue((Integer.class.getClassLoader())));
-            instance.measure = ((String) in.readValue((String.class.getClassLoader())));
-            instance.ingredient = ((String) in.readValue((String.class.getClassLoader())));
-            return instance;
+        @Override
+        public Ingredient createFromParcel(Parcel parcel) {
+            return null;
         }
 
         public Ingredient[] newArray(int size) {
@@ -36,8 +32,9 @@ public class Ingredient implements Parcelable {
     /**
      * No args constructor for use in serialization
      *
+     * @param jsonObject
      */
-    public Ingredient() {
+    public Ingredient(JSONObject jsonObject) {
     }
 
     /**
