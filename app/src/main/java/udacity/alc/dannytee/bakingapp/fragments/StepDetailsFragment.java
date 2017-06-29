@@ -51,14 +51,19 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     private static MediaSessionCompat mediaSession;
     private static long position = 0;
     @BindView(R.id.text_description)
+
     TextView longDescription;
     @BindView(R.id.prev_button)
+
     Button prev;
     @BindView(R.id.next_button)
+
     Button next;
     @BindView(R.id.playerView)
+
     SimpleExoPlayerView playerView;
     @BindView(R.id.horizontalHalf)
+
     Guideline guideline;
     private View rootView;
     private SimpleExoPlayer exoPlayer;

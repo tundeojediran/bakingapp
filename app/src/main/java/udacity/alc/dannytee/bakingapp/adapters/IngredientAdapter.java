@@ -20,7 +20,7 @@ import udacity.alc.dannytee.bakingapp.models.Ingredient;
 public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientViewHolder> {
 
 
-    private List<Ingredient> mIngredients;
+    private final List<Ingredient> mIngredients;
 
     public IngredientAdapter(List<Ingredient> ingredients) {
         mIngredients = ingredients;
@@ -34,9 +34,8 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         boolean shouldAttachToParent = false;
 
         View view = inflater.inflate(layoutIdFromParent, viewGroup, shouldAttachToParent);
-        IngredientAdapter.IngredientViewHolder viewHolder = new IngredientAdapter.IngredientViewHolder(view);
 
-        return viewHolder;
+        return new IngredientViewHolder(view);
     }
 
     @Override
@@ -53,9 +52,9 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
 
     class IngredientViewHolder extends RecyclerView.ViewHolder{
 
-        TextView ingredientTextView;
-        TextView measureTextView;
-        TextView quantityTextView;
+        final TextView ingredientTextView;
+        final TextView measureTextView;
+        final TextView quantityTextView;
 
 
         public IngredientViewHolder(View itemView) {

@@ -20,8 +20,8 @@ import udacity.alc.dannytee.bakingapp.models.Step;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHolder>{
 
-    private StepsAdapter.ListItemClickListener mOnClickListener;
-    private List<Step> mSteps;
+    private final StepsAdapter.ListItemClickListener mOnClickListener;
+    private final List<Step> mSteps;
 
     public StepsAdapter(StepsAdapter.ListItemClickListener listener, List<Step> steps) {
         mOnClickListener = listener;
@@ -39,9 +39,8 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
         boolean shouldAttachToParent = false;
 
         View view = inflater.inflate(layoutIdFromParent, viewGroup, shouldAttachToParent);
-        StepsAdapter.StepsViewHolder viewHolder = new StepsAdapter.StepsViewHolder(view);
 
-        return viewHolder;
+        return new StepsViewHolder(view);
     }
 
     @Override
@@ -63,9 +62,9 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     class StepsViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        TextView stepText;
-        TextView stepText_id;
-        TextView descriptionText;
+        final TextView stepText;
+        final TextView stepText_id;
+        final TextView descriptionText;
 
 
         public StepsViewHolder(View itemView) {
@@ -73,7 +72,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
 
             stepText = (TextView) itemView.findViewById(R.id.step_text);
             stepText_id = (TextView) itemView.findViewById(R.id.step_id);
-            descriptionText = (TextView) itemView.findViewById(R.id.step_description_short);;
+            descriptionText = (TextView) itemView.findViewById(R.id.step_description_short);
             itemView.setOnClickListener(this);
         }
 

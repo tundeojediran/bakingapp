@@ -10,7 +10,7 @@ import java.util.List;
  * Created by dannytee on 25/06/2017.
  */
 
-public class RecipesResponse {
+class RecipesResponse {
 
 
     private List<Recipe> results;

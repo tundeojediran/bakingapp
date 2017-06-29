@@ -11,14 +11,12 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import udacity.alc.dannytee.bakingapp.R;
 import udacity.alc.dannytee.bakingapp.models.Recipe;
-import udacity.alc.dannytee.bakingapp.models.RecipesResponse;
 
 /**
  * Created by dannytee on 25/06/2017.
@@ -26,9 +24,9 @@ import udacity.alc.dannytee.bakingapp.models.RecipesResponse;
 
 public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.RecipeViewHolder> {
 
-    private ListItemClickListener mOnClickListener;
-    private List<Recipe> mRecipes;
-    private List<Integer> mImages;
+    private final ListItemClickListener mOnClickListener;
+    private final List<Recipe> mRecipes;
+    private final List<Integer> mImages;
 
     public RecipesListAdapter(ListItemClickListener mOnClickListener, List<Recipe> mRecipes, List<Integer> mImages) {
         this.mOnClickListener = mOnClickListener;
@@ -44,9 +42,8 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
         boolean shouldAttachToParent = false;
 
         View view = inflater.inflate(layoutIdForListItem, parent, shouldAttachToParent);
-        RecipeViewHolder viewHolder = new RecipeViewHolder(view);
 
-        return viewHolder;
+        return new RecipeViewHolder(view);
     }
 
     @Override

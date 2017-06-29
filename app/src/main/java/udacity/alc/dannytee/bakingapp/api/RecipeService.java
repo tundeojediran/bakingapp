@@ -5,7 +5,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import udacity.alc.dannytee.bakingapp.models.Recipe;
-import udacity.alc.dannytee.bakingapp.models.RecipesResponse;
 
 /**
  * Created by dannytee on 25/06/2017.

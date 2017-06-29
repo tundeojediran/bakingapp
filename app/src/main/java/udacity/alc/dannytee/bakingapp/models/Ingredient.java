@@ -11,7 +11,7 @@ import org.json.JSONObject;
 
 public class Ingredient implements Parcelable {
 
-    private Integer quantity;
+    private double quantity;
     private String measure;
     private String ingredient;
     public final static Parcelable.Creator<Ingredient> CREATOR = new Creator<Ingredient>() {
@@ -43,18 +43,18 @@ public class Ingredient implements Parcelable {
      * @param ingredient
      * @param quantity
      */
-    public Ingredient(Integer quantity, String measure, String ingredient) {
+    public Ingredient(double quantity, String measure, String ingredient) {
         super();
         this.quantity = quantity;
         this.measure = measure;
         this.ingredient = ingredient;
     }
 
-    public Integer getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(double quantity) {
         this.quantity = quantity;
     }
 

@@ -29,7 +29,6 @@ import udacity.alc.dannytee.bakingapp.adapters.RecipesListAdapter;
 import udacity.alc.dannytee.bakingapp.api.RecipeService;
 import udacity.alc.dannytee.bakingapp.api.ServiceGenerator;
 import udacity.alc.dannytee.bakingapp.models.Recipe;
-import udacity.alc.dannytee.bakingapp.models.RecipesResponse;
 
 import static udacity.alc.dannytee.bakingapp.activities.RecipesActivity.isDualPane;
 
@@ -158,7 +157,7 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
 //        startActivity(intent);
     }
 
-    public static boolean isNetworkAvailable(Context context){
+    private static boolean isNetworkAvailable(Context context){
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = manager.getActiveNetworkInfo();
 

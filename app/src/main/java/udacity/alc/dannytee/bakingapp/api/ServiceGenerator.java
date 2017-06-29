@@ -12,13 +12,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenerator {
 
-    public static final String API_BASE_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/";
+    private static final String API_BASE_URL = "https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/";
 
-    private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
+    private static final OkHttpClient.Builder httpClient = new OkHttpClient.Builder()
             .readTimeout(60, TimeUnit.SECONDS)
             .connectTimeout(60, TimeUnit.SECONDS);
 
-    private static Retrofit.Builder builder =
+    private static final Retrofit.Builder builder =
             new Retrofit.Builder()
                     .baseUrl(API_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create());
@@ -29,8 +29,7 @@ public class ServiceGenerator {
     }
 
     public static Retrofit retrofit() {
-        Retrofit retrofit = builder.client(httpClient.build()).build();
-        return retrofit;
+        return builder.client(httpClient.build()).build();
     }
 
 }

@@ -32,9 +32,9 @@ import static udacity.alc.dannytee.bakingapp.fragments.RecipesFragment.mRecipes;
  * Created by dannytee on 25/06/2017.
  */
 
-public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
+class BakingWidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
-    private Context mContext;
+    private final Context mContext;
 
     public BakingWidgetRemoteViewsFactory(Context context){
         mContext = context;
@@ -103,7 +103,7 @@ public class BakingWidgetRemoteViewsFactory implements RemoteViewsService.Remote
     }
 
 
-    public class FetchBakesTask extends AsyncTask<Void, Void, List<Recipe>> {
+    private class FetchBakesTask extends AsyncTask<Void, Void, List<Recipe>> {
 
         @Override
         protected List<Recipe> doInBackground(Void... params) {
