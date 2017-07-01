@@ -9,6 +9,7 @@ import android.support.constraint.Guideline;
 import android.support.v4.app.Fragment;
 import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v4.media.session.PlaybackStateCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import udacity.alc.dannytee.bakingapp.R;
 import udacity.alc.dannytee.bakingapp.activities.RecipeDetailsActivity;
+import udacity.alc.dannytee.bakingapp.activities.StepsActivity;
 
 import static udacity.alc.dannytee.bakingapp.activities.RecipesActivity.isDualPane;
 import static udacity.alc.dannytee.bakingapp.fragments.StepsFragment.mSteps;
@@ -46,7 +48,7 @@ import static udacity.alc.dannytee.bakingapp.fragments.StepsFragment.mSteps;
  */
 public class StepDetailsFragment extends Fragment implements ExoPlayer.EventListener {
 
-    private static final String TAG = RecipeDetailsActivity.class.getSimpleName();
+    private static final String TAG = StepsActivity.class.getSimpleName();
     public static int index = 0;
     private static MediaSessionCompat mediaSession;
     private static long position = 0;
@@ -92,6 +94,15 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
         super.onViewCreated(view, savedInstanceState);
 
         initializeMediaSession();
+        initializePlayer(Uri.parse(mSteps.get(index).getVideoURL()));//hash this line
+
+
+        if (!isDualPane) {
+            index = getActivity().getIntent().getExtras().getInt("item");
+        }
+
+        Log.d("index in details frag: ", index+"");
+
 
         getActivity().setTitle(mSteps.get(index).getShortDescription());
         longDescription.setText(mSteps.get(index).getDescription());

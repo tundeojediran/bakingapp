@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,7 @@ public class StepsFragment extends Fragment implements StepsAdapter.ListItemClic
         if (!isDualPane) {
             Intent intent = new Intent(getActivity(), StepsActivity.class);
             intent.putExtra("item", clickedItemIndex);
+            Log.d("item", clickedItemIndex+"");
             startActivity(intent);
         } else {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();

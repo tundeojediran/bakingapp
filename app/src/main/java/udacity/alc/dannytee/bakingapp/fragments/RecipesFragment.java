@@ -25,6 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import udacity.alc.dannytee.bakingapp.R;
+import udacity.alc.dannytee.bakingapp.activities.RecipeDetailsActivity;
 import udacity.alc.dannytee.bakingapp.adapters.RecipesListAdapter;
 import udacity.alc.dannytee.bakingapp.api.RecipeService;
 import udacity.alc.dannytee.bakingapp.api.ServiceGenerator;
@@ -152,9 +153,9 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
 
     @Override
     public void onClick(int clickedItemIndex) {
-//        Intent intent = new Intent(getActivity(), RecipeDetailsActivity.class);
-//        intent.putExtra("item", clickedItemIndex);
-//        startActivity(intent);
+        Intent intent = new Intent(getActivity(), RecipeDetailsActivity.class);
+        intent.putExtra("item", clickedItemIndex);
+        startActivity(intent);
     }
 
     private static boolean isNetworkAvailable(Context context){
