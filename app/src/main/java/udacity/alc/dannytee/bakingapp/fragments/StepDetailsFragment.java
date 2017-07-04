@@ -66,7 +66,7 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     SimpleExoPlayerView playerView;
     @BindView(R.id.horizontalHalf)
 
-    Guideline guideline;
+    private Guideline guideline;
     private View rootView;
     private SimpleExoPlayer exoPlayer;
     private PlaybackStateCompat.Builder stateBuilder;

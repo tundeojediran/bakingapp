@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -41,18 +42,31 @@ import static udacity.alc.dannytee.bakingapp.activities.RecipesActivity.isDualPa
 public class RecipesFragment extends Fragment implements RecipesListAdapter.ListItemClickListener {
 
     public static final String TAG = RecipesFragment.class.getSimpleName();
-    public static List<Recipe> mRecipes;
+    public static ArrayList<Recipe> mRecipes;
     @BindView(R.id.recipes_list) RecyclerView recyclerView;
     private RecipesListAdapter recipesListAdapter;
     private ArrayList<Integer> mImages;
     private ProgressDialog dialog;
 
     private RecipeService recipeService;
+    private static final String RECIPES_LIST = "recipes_list";
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_recipes, container, false);
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
+
+        if (savedInstanceState != null){
+            mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
+//           loadRecipesData();
+        }
 
     }
 
@@ -71,6 +85,8 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
         mImages.add(R.mipmap.yellowcake);
 
         loadRecipes();
+
+
 
     }
 
@@ -93,7 +109,7 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
                        }
 
                        try {
-                           mRecipes = response.body();
+                           mRecipes = (ArrayList<Recipe>) response.body();
                            Log.d("response body", mRecipes.size()+"");
 //                           mMovieAdapter.setMovieData(mResponseMovieItems);
 
@@ -168,4 +184,28 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
         }
         return isAvailable;
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        if (mRecipes != null){
+            outState.putParcelableArrayList(RECIPES_LIST, mRecipes);
+        }
+
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+
+        if (savedInstanceState != null){
+            mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
+//           loadRecipesData();
+        }
+
+    }
+
+
+
 }

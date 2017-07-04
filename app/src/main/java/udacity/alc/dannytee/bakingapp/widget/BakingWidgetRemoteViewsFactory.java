@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -17,10 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.concurrent.ExecutionException;
 
 import udacity.alc.dannytee.bakingapp.R;

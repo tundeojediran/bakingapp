@@ -52,7 +52,7 @@ public class StepsFragment extends Fragment implements StepsAdapter.ListItemClic
         stepsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         stepsRecyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
         stepsRecyclerView.setHasFixedSize(true);
-        stepsAdapter = new StepsAdapter(this, mSteps);
+        stepsAdapter = new StepsAdapter(this, mSteps, getActivity());
         stepsRecyclerView.setAdapter(stepsAdapter);
 
         return stepsRecyclerView;

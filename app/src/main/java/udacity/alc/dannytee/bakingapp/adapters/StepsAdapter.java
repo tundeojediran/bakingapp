@@ -5,11 +5,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import udacity.alc.dannytee.bakingapp.R;
 import udacity.alc.dannytee.bakingapp.fragments.StepsFragment;
 import udacity.alc.dannytee.bakingapp.models.Step;
@@ -22,10 +27,12 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
 
     private final StepsAdapter.ListItemClickListener mOnClickListener;
     private final List<Step> mSteps;
+    private Context mContext;
 
-    public StepsAdapter(StepsAdapter.ListItemClickListener listener, List<Step> steps) {
+    public StepsAdapter(StepsAdapter.ListItemClickListener listener, List<Step> steps, Context context) {
         mOnClickListener = listener;
         mSteps = steps;
+        this.mContext = context;
 
     }
 
@@ -62,25 +69,33 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
     class StepsViewHolder extends RecyclerView.ViewHolder
             implements View.OnClickListener {
 
-        final TextView stepText;
-        final TextView stepText_id;
-        final TextView descriptionText;
+        @BindView(R.id.step_id) TextView stepText_id;
+        @BindView(R.id.step_description_short) TextView descriptionText;
+        @BindView(R.id.thumbnail_steps)
+        ImageView thumbNailImageView;
 
 
         public StepsViewHolder(View itemView) {
             super(itemView);
 
-            stepText = (TextView) itemView.findViewById(R.id.step_text);
-            stepText_id = (TextView) itemView.findViewById(R.id.step_id);
-            descriptionText = (TextView) itemView.findViewById(R.id.step_description_short);
+            ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);
         }
 
         void onBind(int position) {
             if (!mSteps.isEmpty()) {
-                stepText.setText(R.string.step_text);
-                stepText_id.setText(String.valueOf(mSteps.get(position).getId() + 1));
+                stepText_id.setText(R.string.step_text + String.valueOf(mSteps.get(position).getId() + 1));
                 descriptionText.setText(mSteps.get(position).getShortDescription());
+
+                if(mSteps.get(position).getThumbnailURL() != "") {
+                    Picasso.with(mContext)
+                            .load(mSteps.get(position).getThumbnailURL())
+                            .placeholder(R.drawable.border)
+                            .resize(50, 50)
+                            .centerCrop()
+                            .into(thumbNailImageView);
+                }
+
             }
         }
 

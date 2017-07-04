@@ -10,6 +10,7 @@ import udacity.alc.dannytee.bakingapp.fragments.RecipesFragment;
 public class RecipesActivity extends AppCompatActivity {
 
     public static boolean isDualPane = false;
+    private RecipesFragment recipesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,17 +22,30 @@ public class RecipesActivity extends AppCompatActivity {
             if (findViewById(R.id.recipes_landscape) != null) {
                 isDualPane = true;
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                RecipesFragment recipesFragment = new RecipesFragment();
+                recipesFragment = new RecipesFragment();
                 fragmentManager.beginTransaction()
                         .add(R.id.recipes_landscape, recipesFragment)
                         .commit();
             } else {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                RecipesFragment recipesFragment = new RecipesFragment();
+                 recipesFragment = new RecipesFragment();
                 fragmentManager.beginTransaction()
                         .add(R.id.recipes_portrait, recipesFragment)
                         .commit();
             }
+        } else {
+                recipesFragment = (RecipesFragment) getSupportFragmentManager().getFragment(savedInstanceState, "recipesFrag");
         }
     }
+
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //Save the fragment's instance
+        getSupportFragmentManager().putFragment(outState, "recipesFrag", recipesFragment);
+    }
+
+
+
 }

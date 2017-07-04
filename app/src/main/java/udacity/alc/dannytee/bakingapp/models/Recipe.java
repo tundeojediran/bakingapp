@@ -14,7 +14,7 @@ import java.util.List;
  * Created by dannytee on 25/06/2017.
  */
 
-public class Recipe {
+public class Recipe implements Parcelable {
 
     public final static Parcelable.Creator<Recipe> CREATOR = new Parcelable.Creator<Recipe>() {
 
