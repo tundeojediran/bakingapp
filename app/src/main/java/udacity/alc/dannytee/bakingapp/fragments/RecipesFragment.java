@@ -25,11 +25,13 @@ import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import udacity.alc.dannytee.bakingapp.LastIngredientPreference;
 import udacity.alc.dannytee.bakingapp.R;
 import udacity.alc.dannytee.bakingapp.activities.RecipeDetailsActivity;
 import udacity.alc.dannytee.bakingapp.adapters.RecipesListAdapter;
 import udacity.alc.dannytee.bakingapp.api.RecipeService;
 import udacity.alc.dannytee.bakingapp.api.ServiceGenerator;
+import udacity.alc.dannytee.bakingapp.models.Ingredient;
 import udacity.alc.dannytee.bakingapp.models.Recipe;
 
 import static udacity.alc.dannytee.bakingapp.activities.RecipesActivity.isDualPane;
@@ -43,10 +45,14 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
 
     public static final String TAG = RecipesFragment.class.getSimpleName();
     public static ArrayList<Recipe> mRecipes;
-    @BindView(R.id.recipes_list) RecyclerView recyclerView;
+    @BindView (R.id.recipes_list) RecyclerView recyclerView;
     private RecipesListAdapter recipesListAdapter;
     private ArrayList<Integer> mImages;
     private ProgressDialog dialog;
+
+    public static int index = -1;
+    public static int top = -1;
+    private GridLayoutManager layoutManager;
 
     private RecipeService recipeService;
     private static final String RECIPES_LIST = "recipes_list";
@@ -63,10 +69,6 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
 
-        if (savedInstanceState != null){
-            mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
-//           loadRecipesData();
-        }
 
     }
 
@@ -76,6 +78,8 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
 
         ButterKnife.bind(this, view);
 
+
+
         dialog = new ProgressDialog(getActivity());
 
         mImages = new ArrayList<>();
@@ -84,7 +88,14 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
         mImages.add(R.mipmap.cheesecake);
         mImages.add(R.mipmap.yellowcake);
 
-        loadRecipes();
+        if (savedInstanceState != null){
+            mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
+        } else {
+            loadRecipes();
+        }
+
+
+//        loadRecipes();
 
 
 
@@ -111,7 +122,6 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
                        try {
                            mRecipes = (ArrayList<Recipe>) response.body();
                            Log.d("response body", mRecipes.size()+"");
-//                           mMovieAdapter.setMovieData(mResponseMovieItems);
 
                            loadRecipesData();
 
@@ -123,8 +133,7 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
                        }
 
                    } else {
-//                       mLoadingIndicator.setVisibility(View.INVISIBLE);
-//                       showErrorMessage();
+
                        Log.d("response error", "response error");
 
                    }
@@ -149,17 +158,21 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
     private void loadRecipesData() {
         if (isDualPane) {
             if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 2));
+                layoutManager = new GridLayoutManager(recyclerView.getContext(), 2);
+                recyclerView.setLayoutManager(layoutManager);
             }
             else{
-                recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 3));
+                layoutManager = new GridLayoutManager(recyclerView.getContext(), 3);
+                recyclerView.setLayoutManager(layoutManager);
             }
         } else {
             if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-                recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 1));
+                layoutManager = new GridLayoutManager(recyclerView.getContext(), 1);
+                recyclerView.setLayoutManager(layoutManager);
             }
             else{
-                recyclerView.setLayoutManager(new GridLayoutManager(recyclerView.getContext(), 2));
+                layoutManager = new GridLayoutManager(recyclerView.getContext(), 2);
+                recyclerView.setLayoutManager(layoutManager);
             }
         }
         recipesListAdapter = new RecipesListAdapter(this, mRecipes, mImages);
@@ -171,7 +184,29 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
     public void onClick(int clickedItemIndex) {
         Intent intent = new Intent(getActivity(), RecipeDetailsActivity.class);
         intent.putExtra("item", clickedItemIndex);
+        saveTouchedRecipeIngredient(mRecipes.get(clickedItemIndex).getIngredients());
         startActivity(intent);
+    }
+
+
+    private void saveTouchedRecipeIngredient(List<Ingredient> ingredients){
+        String formattedIngredient;
+        double quantity;
+        String measure;
+        String ingredientDetails;
+        String finalFormattedString = "";
+
+        for (Ingredient ingredient : ingredients){
+            formattedIngredient  = getActivity().getString(R.string.bullet);
+            quantity = ingredient.getQuantity();
+            measure = ingredient.getMeasure();
+            ingredientDetails = ingredient.getIngredient();
+            formattedIngredient += " " + ingredientDetails + " ("+ quantity +" " + measure + ")";
+            finalFormattedString += formattedIngredient+ "\n\n";
+
+        }
+
+        LastIngredientPreference.setIngredientPreference(getActivity(), finalFormattedString);
     }
 
     private static boolean isNetworkAvailable(Context context){
@@ -201,11 +236,35 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
 
         if (savedInstanceState != null){
             mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
-//           loadRecipesData();
+           loadRecipesData();
         }
 
     }
 
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        //read current recyclerview position
+        index = layoutManager.findFirstVisibleItemPosition();
+        View v = recyclerView.getChildAt(0);
+        top = (v == null) ? 0 : (v.getTop() - recyclerView.getPaddingTop());
+    }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        //set recyclerview position
+        if(index != -1)
+        {
+            layoutManager.scrollToPositionWithOffset(index, top);
+        }
+    }
+
+//    public boolean isSyncFinished() {
+//        return getActivity().recipesListAdapter != null;
+//
+//    }
 
 }

@@ -47,5 +47,7 @@ public class RecipesActivity extends AppCompatActivity {
     }
 
 
-
+    public boolean isSyncFinished() {
+        return false;
+    }
 }

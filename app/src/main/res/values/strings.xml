@@ -10,4 +10,8 @@
     <string name="extra">item</string>
     <string translatable="false" name="recipeUrl">https://d17h27t6h515a5.cloudfront.net/topher/2017/May/59121517_baking/baking.json</string>
     <string name="step_no">1</string>
+    <string name="bullet">\\u2022</string>
+    <string name="widget_last_viewed_ingredient">Ingredients</string>
+    <string name="appwidget_text">EXAMPLE</string>
+
 </resources>
