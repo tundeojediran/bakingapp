@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +127,6 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
                            loadRecipesData();
 
 
-
                        } catch (Exception e) {
                            Log.d("onResponse", "There is an error");
                            e.printStackTrace();
@@ -137,7 +137,6 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
                        Log.d("response error", "response error");
 
                    }
-
                }
 
                @Override
@@ -145,11 +144,16 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
                    Log.d("onFailure", t.toString());
                    if (dialog.isShowing()) {
                        dialog.dismiss();
+                       Toast.makeText(getActivity(), getString(R.string.error_fetching_recipes), Toast.LENGTH_LONG).show();
                    }
 
 
                }
            });
+       } else {
+           // network error message
+           Toast.makeText(getActivity(), getString(R.string.no_internet_connection_error_message), Toast.LENGTH_LONG).show();
+
        }
 
     }

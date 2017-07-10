@@ -37,57 +37,17 @@ public class RecipeActivityTest {
     public ActivityTestRule<RecipesActivity> mActivityTestRule = new ActivityTestRule<>(RecipesActivity.class);
     private BakingIdlingResource idlingResource;
 
-    @Before
-    public void registerIntentServiceIdlingResource() {
-        RecipesActivity activity = mActivityTestRule.getActivity();
-        idlingResource = new BakingIdlingResource(activity);
-        Espresso.registerIdlingResources(idlingResource);
-    }
-
-
-//    @Test
-//    public void nutellaTitleTest(){
-//        // First scroll to the position that needs to be matched and click on it.
-//        onView(allOf(withId(R.id.recipes_list), withParent(allOf(withId(R.id.recipes_portrait), withParent(withId(android.R.id.content)))),
-//                isDisplayed())).perform(RecyclerViewActions.actionOnItemAtPosition(0, click())).check(matches(withText(NUTELLA_TEST_TEXT)));
-//    }
-
-
-//    @Test
-//    public void browniesTitleTest(){
-//        // First scroll to the position that needs to be matched and click on it.
-//        onView(allOf(withId(R.id.recipes_list), withParent(allOf(withId(R.id.recipes_portrait), withParent(withId(android.R.id.content)))),
-//                isDisplayed())).perform(RecyclerViewActions.actionOnItemAtPosition(1, click())).check(matches(withText(BROWNIES_TEST_TEXT)));
-//    }
-
 
 
     @Test
-    public void nutellaPieInActionBar(){
+    public void recipesList(){
         // First scroll to the position that needs to be matched and click on it.
         final int BROWNIES_POSITION = 0;
         final String BROWNIES = "Nutella Pie";
-        onView(withId(R.id.recipes_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(BROWNIES_POSITION, click()));
-        onView(withText(BROWNIES) ).check(matches(isDisplayed()));
-    }
-
-    @Test
-    public void browniesShowsInActionBar(){
-        // First scroll to the position that needs to be matched and click on it.
-        final int BROWNIES_POSITION = 1;
-        final String BROWNIES = "Brownies";
-        onView(withId(R.id.recipes_list))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(BROWNIES_POSITION, click()));
-        onView(withText(BROWNIES) ).check(matches(isDisplayed()));
+        onView(withId(R.id.recipes_list)).perform(RecyclerViewActions.actionOnItemAtPosition(BROWNIES_POSITION, click()));
     }
 
 
-    @After
-    public void unregisterIntentServiceIdlingResource() {
-        Espresso.unregisterIdlingResources(idlingResource);
-
-    }
 
 
 

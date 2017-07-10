@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:divider="@color/rule_view_color"
+    android:id="@+id/steps_list"
     android:dividerHeight="1dp">
 
 </android.support.v7.widget.RecyclerView>

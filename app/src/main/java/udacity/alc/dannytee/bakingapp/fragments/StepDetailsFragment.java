@@ -64,9 +64,9 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
     @BindView(R.id.playerView)
 
     SimpleExoPlayerView playerView;
-    @BindView(R.id.horizontalHalf)
-
-    Guideline guideline;
+//    @BindView(R.id.horizontalHalf)
+//
+//    Guideline guideline;
     private View rootView;
     private SimpleExoPlayer exoPlayer;
     private PlaybackStateCompat.Builder stateBuilder;
@@ -101,7 +101,6 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
             index = getActivity().getIntent().getExtras().getInt("item");
         }
 
-        Log.d("index in details frag: ", index+"");
 
 
         getActivity().setTitle(mSteps.get(index).getShortDescription());
@@ -134,15 +133,15 @@ public class StepDetailsFragment extends Fragment implements ExoPlayer.EventList
             }
         });
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !isDualPane) {
-            hideSystemUI();
-            playerView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
-            restExoPlayer(position, true);
-            longDescription.setVisibility(View.GONE);
-            prev.setVisibility(View.GONE);
-            next.setVisibility(View.GONE);
-            guideline.setVisibility(View.GONE);
-        }
+//        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !isDualPane) {
+//            hideSystemUI();
+//            playerView.getLayoutParams().height = ViewGroup.LayoutParams.MATCH_PARENT;
+//            restExoPlayer(position, true);
+//            longDescription.setVisibility(View.GONE);
+//            prev.setVisibility(View.GONE);
+//            next.setVisibility(View.GONE);
+//            guideline.setVisibility(View.GONE);
+//        }
 
     }
 

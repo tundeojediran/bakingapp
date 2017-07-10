@@ -2,6 +2,7 @@ package udacity.alc.dannytee.bakingapp.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepsViewHol
                 stepText_id.setText(R.string.step_text + String.valueOf(mSteps.get(position).getId() + 1));
                 descriptionText.setText(mSteps.get(position).getShortDescription());
 
-                if(mSteps.get(position).getThumbnailURL() != "") {
+                if(!TextUtils.isEmpty(mSteps.get(position).getThumbnailURL())) {
                     Picasso.with(mContext)
                             .load(mSteps.get(position).getThumbnailURL())
                             .placeholder(R.drawable.border)

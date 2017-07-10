@@ -13,5 +13,8 @@
     <string name="bullet">\\u2022</string>
     <string name="widget_last_viewed_ingredient">Ingredients</string>
     <string name="appwidget_text">EXAMPLE</string>
+    <string name="no_internet_connection_error_message">No Internet connection</string>
+    <string name="error_fetching_recipes">Error in getting recipes</string>
+
 
 </resources>
