@@ -35,17 +35,9 @@ public class IngredientFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        index = getActivity().getIntent().getExtras().getInt(getString(R.string.extra));
 
-        getActivity().setTitle(mRecipes.get(index).getName());
 
         recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_ingredient, container, false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
-        recyclerView.setHasFixedSize(true);
-        adapter = new IngredientAdapter(mRecipes.get(index).getIngredients());
-        recyclerView.setAdapter(adapter);
-
 
         return recyclerView;
     }
@@ -53,6 +45,15 @@ public class IngredientFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
 
+        if (getActivity().getIntent() != null) {
+            index = getActivity().getIntent().getExtras().getInt(getString(R.string.extra));
+            getActivity().setTitle(mRecipes.get(index).getName());
+        }
 
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL));
+        recyclerView.setHasFixedSize(true);
+        adapter = new IngredientAdapter(mRecipes.get(index).getIngredients());
+        recyclerView.setAdapter(adapter);
     }
 }

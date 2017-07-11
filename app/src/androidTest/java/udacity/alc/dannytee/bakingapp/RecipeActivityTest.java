@@ -41,12 +41,19 @@ public class RecipeActivityTest {
 
     @Test
     public void recipesList(){
-        // First scroll to the position that needs to be matched and click on it.
         final int BROWNIES_POSITION = 0;
         final String BROWNIES = "Nutella Pie";
         onView(withId(R.id.recipes_list)).perform(RecyclerViewActions.actionOnItemAtPosition(BROWNIES_POSITION, click()));
     }
 
+//    @Test
+//    public void browniesShowsInActionBar(){
+//        final int BROWNIES_POSITION = 1;
+//        final String BROWNIES = "Brownies";
+//        onView(withId(R.id.recipes_list))
+//                .perform(RecyclerViewActions.actionOnItemAtPosition(BROWNIES_POSITION, click()));
+//
+//    }
 
 
 
