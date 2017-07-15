@@ -29,12 +29,10 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
 
     private final ListItemClickListener mOnClickListener;
     private final List<Recipe> mRecipes;
-//    private final List<Integer> mImages;
 
     public RecipesListAdapter(ListItemClickListener mOnClickListener, List<Recipe> mRecipes) {
         this.mOnClickListener = mOnClickListener;
         this.mRecipes = mRecipes;
-//        this.mImages = mImages;
     }
 
 
