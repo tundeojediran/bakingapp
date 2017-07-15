@@ -18,17 +18,17 @@ public class RecipesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_recipes);
 
         if (savedInstanceState == null) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            recipesFragment = RecipesFragment.newInstance();
 
             if (findViewById(R.id.recipes_landscape) != null) {
                 isDualPane = true;
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                recipesFragment = new RecipesFragment();
+
                 fragmentManager.beginTransaction()
                         .add(R.id.recipes_landscape, recipesFragment)
                         .commit();
             } else {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                 recipesFragment = new RecipesFragment();
+
                 fragmentManager.beginTransaction()
                         .add(R.id.recipes_portrait, recipesFragment)
                         .commit();

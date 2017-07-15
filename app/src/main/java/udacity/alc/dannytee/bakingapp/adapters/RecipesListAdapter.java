@@ -93,7 +93,7 @@ public class RecipesListAdapter extends RecyclerView.Adapter<RecipesListAdapter.
                             .with(itemView.getContext())
                             .cancelRequest(recipeImage);
 
-                    recipeImage.setImageDrawable(null);
+                    recipeImage.setImageDrawable(itemView.getContext().getDrawable(R.mipmap.error));
 
                 } else {
                     Picasso

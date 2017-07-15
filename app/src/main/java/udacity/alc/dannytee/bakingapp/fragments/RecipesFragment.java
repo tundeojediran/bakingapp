@@ -57,6 +57,15 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
     private RecipeService recipeService;
     private static final String RECIPES_LIST = "recipes_list";
 
+    public static RecipesFragment newInstance() {
+        RecipesFragment recipesFragment = new RecipesFragment();
+//        Bundle args = new Bundle();
+//        args.putInt("index", index);
+//        f.setArguments(args);
+        return recipesFragment;
+    }
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
