@@ -46,14 +46,6 @@ public class RecipeActivityTest {
         onView(withId(R.id.recipes_list)).perform(RecyclerViewActions.actionOnItemAtPosition(BROWNIES_POSITION, click()));
     }
 
-//    @Test
-//    public void browniesShowsInActionBar(){
-//        final int BROWNIES_POSITION = 1;
-//        final String BROWNIES = "Brownies";
-//        onView(withId(R.id.recipes_list))
-//                .perform(RecyclerViewActions.actionOnItemAtPosition(BROWNIES_POSITION, click()));
-//
-//    }
 
 
 

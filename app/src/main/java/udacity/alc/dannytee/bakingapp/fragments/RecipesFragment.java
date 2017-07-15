@@ -48,7 +48,6 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
     public static ArrayList<Recipe> mRecipes;
     @BindView (R.id.recipes_list) RecyclerView recyclerView;
     private RecipesListAdapter recipesListAdapter;
-    private ArrayList<Integer> mImages;
     private ProgressDialog dialog;
 
     public static int index = -1;
@@ -83,11 +82,6 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
 
         dialog = new ProgressDialog(getActivity());
 
-        mImages = new ArrayList<>();
-        mImages.add(R.mipmap.nutellapie);
-        mImages.add(R.mipmap.brownies);
-        mImages.add(R.mipmap.cheesecake);
-        mImages.add(R.mipmap.yellowcake);
 
         if (savedInstanceState != null){
             mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
@@ -179,7 +173,7 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
                 recyclerView.setLayoutManager(layoutManager);
             }
         }
-        recipesListAdapter = new RecipesListAdapter(this, mRecipes, mImages);
+        recipesListAdapter = new RecipesListAdapter(this, mRecipes);
         recyclerView.setAdapter(recipesListAdapter);
 
     }

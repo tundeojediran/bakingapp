@@ -7,7 +7,7 @@
     tools:context="udacity.alc.dannytee.bakingapp.activities.StepsActivity">
 
     <FrameLayout
-        android:layout_width="match_parent"
+        android:layout_width="344dp"
         android:layout_height="wrap_content"
         android:id="@+id/steps_details_frame"
         android:padding="8dp"
