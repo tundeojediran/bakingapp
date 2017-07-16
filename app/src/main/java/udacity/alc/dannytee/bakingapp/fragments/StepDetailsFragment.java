@@ -25,6 +25,7 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
+import com.google.android.exoplayer2.util.Util;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -43,8 +44,6 @@ public class StepDetailsFragment extends Fragment {
 
     private static final String TAG = StepsActivity.class.getSimpleName();
     public static int index = 0;
-    private static MediaSessionCompat mediaSession;
-    private static long position = 0;
     @BindView(R.id.text_description)
     TextView longDescription;
 
@@ -63,8 +62,7 @@ public class StepDetailsFragment extends Fragment {
     ImageView mNoVideoImageView;
 
     private View rootView;
-    private SimpleExoPlayer exoPlayer, player;
-    private PlaybackStateCompat.Builder stateBuilder;
+    private SimpleExoPlayer player;
     private Step mStep;
 
     boolean playWhenReady = false;
@@ -193,6 +191,49 @@ public class StepDetailsFragment extends Fragment {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN
                         | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (Util.SDK_INT > 23) {
+            initializePlayer();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if ((Util.SDK_INT <= 23 || player == null)) {
+            initializePlayer();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (Util.SDK_INT <= 23) {
+            releasePlayer();
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (Util.SDK_INT > 23) {
+            releasePlayer();
+        }
+    }
+
+
+    private void releasePlayer() {
+        if (player != null) {
+            playbackPosition = player.getCurrentPosition();
+            currentWindow = player.getCurrentWindowIndex();
+            playWhenReady = player.getPlayWhenReady();
+            player.release();
+            player = null;
+        }
     }
 
 }
