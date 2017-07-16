@@ -109,4 +109,8 @@ public class Step implements Parcelable {
     public int describeContents() {
         return  0;
     }
+
+    public boolean hasVideo(){
+        return !getVideoURL().isEmpty();
+    }
 }

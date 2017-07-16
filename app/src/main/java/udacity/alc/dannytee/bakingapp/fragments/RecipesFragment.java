@@ -7,7 +7,6 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
@@ -45,17 +44,16 @@ import static udacity.alc.dannytee.bakingapp.activities.RecipesActivity.isDualPa
 public class RecipesFragment extends Fragment implements RecipesListAdapter.ListItemClickListener {
 
     public static final String TAG = RecipesFragment.class.getSimpleName();
+    private static final String RECIPES_LIST = "recipes_list";
     public static ArrayList<Recipe> mRecipes;
-    @BindView (R.id.recipes_list) RecyclerView recyclerView;
-    private RecipesListAdapter recipesListAdapter;
-    private ProgressDialog dialog;
-
     public static int index = -1;
     public static int top = -1;
+    @BindView(R.id.recipes_list)
+    RecyclerView recyclerView;
+    private RecipesListAdapter recipesListAdapter;
+    private ProgressDialog dialog;
     private GridLayoutManager layoutManager;
-
     private RecipeService recipeService;
-    private static final String RECIPES_LIST = "recipes_list";
 
     public static RecipesFragment newInstance() {
         RecipesFragment recipesFragment = new RecipesFragment();
@@ -65,6 +63,16 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
         return recipesFragment;
     }
 
+    private static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
+
+        boolean isAvailable = false;
+        if (networkInfo != null && networkInfo.isConnected()) {
+            isAvailable = true;
+        }
+        return isAvailable;
+    }
 
     @Nullable
     @Override
@@ -88,11 +96,10 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
         ButterKnife.bind(this, view);
 
 
-
         dialog = new ProgressDialog(getActivity());
 
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
         } else {
             loadRecipes();
@@ -102,82 +109,78 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
 //        loadRecipes();
 
 
-
     }
 
     // method to load recipes list
     private void loadRecipes() {
-       if (isNetworkAvailable(getActivity())) {
-           dialog.setMessage(getString(R.string.dialog_loading));
-           dialog.show();
+        if (isNetworkAvailable(getActivity())) {
+            dialog.setMessage(getString(R.string.dialog_loading));
+            dialog.show();
 
-           recipeService = ServiceGenerator.createService(RecipeService.class);
+            recipeService = ServiceGenerator.createService(RecipeService.class);
 
-           Call<List<Recipe>> recipesResponseCall = recipeService.getRecipes();
-           recipesResponseCall.enqueue(new Callback<List<Recipe>>() {
-               @Override
-               public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
+            Call<List<Recipe>> recipesResponseCall = recipeService.getRecipes();
+            recipesResponseCall.enqueue(new Callback<List<Recipe>>() {
+                @Override
+                public void onResponse(Call<List<Recipe>> call, Response<List<Recipe>> response) {
 
-                   if (response.isSuccessful()) {
-                       if (dialog.isShowing()) {
-                           dialog.dismiss();
-                       }
+                    if (response.isSuccessful()) {
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
 
-                       try {
-                           mRecipes = (ArrayList<Recipe>) response.body();
-                           Log.d("response body", mRecipes.size()+"");
+                        try {
+                            mRecipes = (ArrayList<Recipe>) response.body();
+                            Log.d("response body", mRecipes.size() + "");
 
-                           loadRecipesData();
-
-
-                       } catch (Exception e) {
-                           Log.d("onResponse", "There is an error");
-                           e.printStackTrace();
-                       }
-
-                   } else {
-
-                       Log.d("response error", "response error");
-
-                   }
-               }
-
-               @Override
-               public void onFailure(Call<List<Recipe>> call, Throwable t) {
-                   Log.d("onFailure", t.toString());
-                   if (dialog.isShowing()) {
-                       dialog.dismiss();
-                       Toast.makeText(getActivity(), getString(R.string.error_fetching_recipes), Toast.LENGTH_LONG).show();
-                   }
+                            loadRecipesData();
 
 
-               }
-           });
-       } else {
-           // network error message
-           Toast.makeText(getActivity(), getString(R.string.no_internet_connection_error_message), Toast.LENGTH_LONG).show();
+                        } catch (Exception e) {
+                            Log.d("onResponse", "There is an error");
+                            e.printStackTrace();
+                        }
 
-       }
+                    } else {
+
+                        Log.d("response error", "response error");
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<Recipe>> call, Throwable t) {
+                    Log.d("onFailure", t.toString());
+                    if (dialog.isShowing()) {
+                        dialog.dismiss();
+                        Toast.makeText(getActivity(), getString(R.string.error_fetching_recipes), Toast.LENGTH_LONG).show();
+                    }
+
+
+                }
+            });
+        } else {
+            // network error message
+            Toast.makeText(getActivity(), getString(R.string.no_internet_connection_error_message), Toast.LENGTH_LONG).show();
+
+        }
 
     }
 
-
     private void loadRecipesData() {
         if (isDualPane) {
-            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 layoutManager = new GridLayoutManager(recyclerView.getContext(), 2);
                 recyclerView.setLayoutManager(layoutManager);
-            }
-            else{
+            } else {
                 layoutManager = new GridLayoutManager(recyclerView.getContext(), 3);
                 recyclerView.setLayoutManager(layoutManager);
             }
         } else {
-            if(this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 layoutManager = new GridLayoutManager(recyclerView.getContext(), 1);
                 recyclerView.setLayoutManager(layoutManager);
-            }
-            else{
+            } else {
                 layoutManager = new GridLayoutManager(recyclerView.getContext(), 2);
                 recyclerView.setLayoutManager(layoutManager);
             }
@@ -195,43 +198,31 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
         startActivity(intent);
     }
 
-
-    private void saveTouchedRecipeIngredient(List<Ingredient> ingredients){
+    private void saveTouchedRecipeIngredient(List<Ingredient> ingredients) {
         String formattedIngredient;
         double quantity;
         String measure;
         String ingredientDetails;
         String finalFormattedString = "";
 
-        for (Ingredient ingredient : ingredients){
-            formattedIngredient  = getActivity().getString(R.string.bullet);
+        for (Ingredient ingredient : ingredients) {
+            formattedIngredient = getActivity().getString(R.string.bullet);
             quantity = ingredient.getQuantity();
             measure = ingredient.getMeasure();
             ingredientDetails = ingredient.getIngredient();
-            formattedIngredient += " " + ingredientDetails + " ("+ quantity +" " + measure + ")";
-            finalFormattedString += formattedIngredient+ "\n\n";
+            formattedIngredient += " " + ingredientDetails + " (" + quantity + " " + measure + ")";
+            finalFormattedString += formattedIngredient + "\n\n";
 
         }
 
         LastIngredientPreference.setIngredientPreference(getActivity(), finalFormattedString);
     }
 
-    private static boolean isNetworkAvailable(Context context){
-        ConnectivityManager manager = (ConnectivityManager) context.getSystemService(context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = manager.getActiveNetworkInfo();
-
-        boolean isAvailable = false;
-        if (networkInfo != null && networkInfo.isConnected()){
-            isAvailable = true;
-        }
-        return isAvailable;
-    }
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
 
-        if (mRecipes != null){
+        if (mRecipes != null) {
             outState.putParcelableArrayList(RECIPES_LIST, mRecipes);
         }
 
@@ -241,31 +232,35 @@ public class RecipesFragment extends Fragment implements RecipesListAdapter.List
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
         super.onViewStateRestored(savedInstanceState);
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mRecipes = savedInstanceState.getParcelableArrayList(RECIPES_LIST);
-           loadRecipesData();
+            loadRecipesData();
         }
 
     }
 
     @Override
-    public void onPause()
-    {
+    public void onPause() {
         super.onPause();
-        //read current recyclerview position
-        index = layoutManager.findFirstVisibleItemPosition();
-        View v = recyclerView.getChildAt(0);
-        top = (v == null) ? 0 : (v.getTop() - recyclerView.getPaddingTop());
+
+        if (layoutManager != null) {
+            //read current recyclerview position
+            index = layoutManager.findFirstVisibleItemPosition();
+            View v = recyclerView.getChildAt(0);
+            top = (v == null) ? 0 : (v.getTop() - recyclerView.getPaddingTop());
+        }
+
     }
 
     @Override
-    public void onResume()
-    {
+    public void onResume() {
         super.onResume();
         //set recyclerview position
-        if(index != -1)
-        {
-            layoutManager.scrollToPositionWithOffset(index, top);
+        if (index != -1) {
+
+            if (layoutManager != null) {
+                layoutManager.scrollToPositionWithOffset(index, top);
+            }
         }
     }
 
